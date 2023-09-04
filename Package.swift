@@ -13,6 +13,7 @@ let package = Package(
     products: [
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"]),
+        .library(name: "CoreDataClient", targets: ["CoreDataClient"]),
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
         .library(name: "FeedbackGeneratorClient", targets: ["FeedbackGeneratorClient"]),
         .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
@@ -43,6 +44,12 @@ let package = Package(
         ),
         .target(
             name: "ComposableStoreKit",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "CoreDataClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
