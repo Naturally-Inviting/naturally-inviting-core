@@ -14,6 +14,7 @@ let package = Package(
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"]),
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
+        .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
         .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
         .library(name: "UIApplicationClient", targets: ["UIApplicationClient"]),
@@ -46,6 +47,12 @@ let package = Package(
         ),
         .target(
             name: "CryptoClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "NIDesignSystem",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
