@@ -149,7 +149,7 @@ struct ButtonDemoView: View {
 
                 Button("Schedule Now", action: {})
                     .primaryPillButtonStyle()
-3
+
                 Button("Schedule Now", action: {})
                     .primaryPillButtonStyle()
                     .disabled(true)
