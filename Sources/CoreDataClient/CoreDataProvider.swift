@@ -2,13 +2,15 @@ import CoreData
 import Dependencies
 import Foundation
 
-public actor CoreDataProvider {
+public class CoreDataProvider {
     public private(set) var container: NSPersistentCloudKitContainer
 
+    @MainActor
     public var viewContext: NSManagedObjectContext {
         container.viewContext
     }
 
+    @MainActor
     public init(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) {
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
@@ -18,6 +20,7 @@ public actor CoreDataProvider {
         )
     }
 
+    @MainActor
     public func setContainer(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) async {
         #if os(watchOS)
         self.container = CoreDataProvider.setupCloudKitContainer(
@@ -37,6 +40,7 @@ public actor CoreDataProvider {
         #endif
     }
 
+    @MainActor
     internal static func setupCloudKitContainer(container name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool = false) -> NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: name, managedObjectModel: model)
 
