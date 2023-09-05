@@ -3,6 +3,7 @@ import CoreLocation
 
 extension ComposableCoreLocation: DependencyKey {
     public enum LocationError: Error {
+        case managerIsNull
         case locationFailed
         case geocodeFailed
     }
@@ -30,6 +31,9 @@ extension ComposableCoreLocation: DependencyKey {
                 if let location = locationManager.location {
                     return Location(location: location)
                 }
+
+                guard locationManager.manager != nil
+                else { throw LocationError.managerIsNull }
 
                 let value = try await withCheckedThrowingContinuation { continuation in
                     locationManager.locationUpdateContinuation = continuation
