@@ -58,20 +58,20 @@ public enum LocationAuthorizationStatus: Equatable {
 }
 
 public struct Location: Equatable {
-    public var locality: String
     public var latitude: Double
     public var longitude: Double
+    public var rawValue: CLLocation?
 
-    public init(locality: String, latitude: Double, longitude: Double) {
-        self.locality = locality
+    public init(latitude: Double, longitude: Double, rawValue: CLLocation? = nil) {
         self.latitude = latitude
         self.longitude = longitude
+        self.rawValue = rawValue
     }
 
-    init(locality: String, location: CLLocation) {
-        self.locality = locality
+    init(location: CLLocation) {
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude
+        self.rawValue = location
     }
 }
 
@@ -79,4 +79,5 @@ public struct ComposableCoreLocation {
     public var initialize: () async -> Void
     public var requestWhenInUseAuthorization: () async -> LocationAuthorizationStatus
     public var location: () async throws -> Location
+    public var geolocateLocation: @Sendable (Location) async throws -> String
 }

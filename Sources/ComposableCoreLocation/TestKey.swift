@@ -12,7 +12,8 @@ extension ComposableCoreLocation: TestDependencyKey {
         ComposableCoreLocation(
             initialize: unimplemented("\(Self.self).initialize"),
             requestWhenInUseAuthorization: unimplemented("\(Self.self).requestWhenInUseAuthorization"),
-            location: unimplemented("\(Self.self).location")
+            location: unimplemented("\(Self.self).location"),
+            geolocateLocation: unimplemented("\(Self.self).geolocateLocation")
         )
     }
 
@@ -22,11 +23,11 @@ extension ComposableCoreLocation: TestDependencyKey {
             requestWhenInUseAuthorization: { .authorizedWhenInUse },
             location: {
                 .init(
-                    locality: "Northville",
                     latitude: 42.4311,
                     longitude: -83.4833
                 )
-            }
+            },
+            geolocateLocation: { _ in "Northville" }
         )
     }
 }

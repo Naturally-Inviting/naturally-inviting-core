@@ -15,31 +15,36 @@ extension ComposableCoreLocation: DependencyKey {
                 await locationManager.initialize()
             },
             requestWhenInUseAuthorization: {
+                if locationManager.manager.authorizationStatus == .authorizedWhenInUse {
+                    return LocationAuthorizationStatus.init(status: .authorizedWhenInUse)
+                }
+
                 let value = await withCheckedContinuation { continuation in
                     locationManager.authContinuation = continuation
-                    locationManager.manager?.requestWhenInUseAuthorization()
+                    locationManager.manager.requestWhenInUseAuthorization()
                 }
 
                 return LocationAuthorizationStatus.init(status: value)
             },
             location: {
-                guard locationManager.manager != nil
-                else { throw LocationError.locationFailed }
-                
                 let value = try await withCheckedThrowingContinuation { continuation in
                     locationManager.locationUpdateContinuation = continuation
-                    locationManager.manager?.requestLocation()
+                    locationManager.manager.requestLocation()
                 }
 
                 guard let location = value.first
                 else { throw LocationError.locationFailed }
 
-                let geocodeResult = try await locationManager.geocoder?.reverseGeocodeLocation(location)
+                return Location(location: location)
+            },
+            geolocateLocation: { location in
+                let clLocation = location.rawValue ?? CLLocation(latitude: location.latitude, longitude: location.longitude)
+                let geocodeResult = try await locationManager.geocoder?.reverseGeocodeLocation(clLocation)
 
                 guard let city = geocodeResult?.first?.locality
                 else { throw LocationError.geocodeFailed }
 
-                return Location(locality: city, location: location)
+                return city
             }
         )
     }
@@ -49,7 +54,7 @@ public typealias AuthotizationContinuation = CheckedContinuation<CLAuthorization
 public typealias LocationOnceContinuation = CheckedContinuation<[CLLocation], Error>
 
 final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
-    var manager: CLLocationManager?
+    var manager: CLLocationManager!
     var geocoder: CLGeocoder?
     var authContinuation: AuthotizationContinuation?
     var locationUpdateContinuation: LocationOnceContinuation?
@@ -59,8 +64,8 @@ final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
     func initialize() async {
         self.manager = CLLocationManager()
         self.geocoder = CLGeocoder()
-        self.manager?.desiredAccuracy = kCLLocationAccuracyKilometer
-        self.manager?.delegate = self
+        self.manager.desiredAccuracy = kCLLocationAccuracyKilometer
+        self.manager.delegate = self
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
