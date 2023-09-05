@@ -23,10 +23,9 @@ extension ComposableCoreLocation: DependencyKey {
                 return LocationAuthorizationStatus.init(status: value)
             },
             location: {
-                if let location = locationManager.location {
-                    return .init(locality: locationManager.lastKnownLocality ?? "", location: location)
-                }
-
+                guard locationManager.manager != nil
+                else { throw LocationError.locationFailed }
+                
                 let value = try await withCheckedThrowingContinuation { continuation in
                     locationManager.locationUpdateContinuation = continuation
                     locationManager.manager?.requestLocation()
@@ -39,8 +38,6 @@ extension ComposableCoreLocation: DependencyKey {
 
                 guard let city = geocodeResult?.first?.locality
                 else { throw LocationError.geocodeFailed }
-
-                locationManager.lastKnownLocality = city
 
                 return Location(locality: city, location: location)
             }
@@ -56,16 +53,14 @@ final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
     var geocoder: CLGeocoder?
     var authContinuation: AuthotizationContinuation?
     var locationUpdateContinuation: LocationOnceContinuation?
-    var lastKnownLocality: String?
     var location: CLLocation?
 
+    @MainActor
     func initialize() async {
-        await MainActor.run {
-            self.manager = CLLocationManager()
-            self.geocoder = CLGeocoder()
-            self.manager?.desiredAccuracy = kCLLocationAccuracyKilometer
-            self.manager?.delegate = self
-        }
+        self.manager = CLLocationManager()
+        self.geocoder = CLGeocoder()
+        self.manager?.desiredAccuracy = kCLLocationAccuracyKilometer
+        self.manager?.delegate = self
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
