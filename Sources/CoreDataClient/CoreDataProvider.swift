@@ -18,9 +18,9 @@ public actor CoreDataProvider {
         )
     }
 
-    public func setContainer(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) {
+    public func setContainer(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) async {
         #if os(watchOS)
-        self.container = CoreDataProvider.setupCloudKitContainer(
+        self.container = await CoreDataProvider.setupCloudKitContainer(
             container: name,
             model: model,
             withSync: withSync,
@@ -28,7 +28,7 @@ public actor CoreDataProvider {
         )
         #else
         let cloudSync = NSUbiquitousKeyValueStore.default.bool(forKey: "iCloudSyncKey")
-        self.container = CoreDataProvider.setupCloudKitContainer(
+        self.container = await CoreDataProvider.setupCloudKitContainer(
             container: name,
             model: model,
             withSync: cloudSync,
@@ -37,6 +37,7 @@ public actor CoreDataProvider {
         #endif
     }
 
+    @MainActor
     internal static func setupCloudKitContainer(container name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool = false) -> NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: name, managedObjectModel: model)
 
