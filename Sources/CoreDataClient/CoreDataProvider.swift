@@ -2,7 +2,7 @@ import CoreData
 import Dependencies
 import Foundation
 
-public final class CoreDataProvider {
+public actor CoreDataProvider {
     public private(set) var container: NSPersistentCloudKitContainer
 
     public var viewContext: NSManagedObjectContext {
