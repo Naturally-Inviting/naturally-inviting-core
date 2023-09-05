@@ -17,6 +17,7 @@ extension ComposableCoreLocation: DependencyKey {
             },
             requestWhenInUseAuthorization: {
                 if locationManager.manager?.authorizationStatus == .authorizedWhenInUse {
+                    locationManager.manager?.requestWhenInUseAuthorization()
                     return LocationAuthorizationStatus.init(status: .authorizedWhenInUse)
                 }
 
