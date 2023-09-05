@@ -17,7 +17,7 @@ extension ComposableCoreLocation: DependencyKey {
             requestWhenInUseAuthorization: {
                 let value = await withCheckedContinuation { continuation in
                     locationManager.authContinuation = continuation
-                    locationManager.manager.requestWhenInUseAuthorization()
+                    locationManager.manager?.requestWhenInUseAuthorization()
                 }
 
                 return LocationAuthorizationStatus.init(status: value)
@@ -29,15 +29,15 @@ extension ComposableCoreLocation: DependencyKey {
 
                 let value = try await withCheckedThrowingContinuation { continuation in
                     locationManager.locationUpdateContinuation = continuation
-                    locationManager.manager.requestLocation()
+                    locationManager.manager?.requestLocation()
                 }
 
                 guard let location = value.first
                 else { throw LocationError.locationFailed }
 
-                let geocodeResult = try await locationManager.geocoder.reverseGeocodeLocation(location)
+                let geocodeResult = try await locationManager.geocoder?.reverseGeocodeLocation(location)
 
-                guard let city = geocodeResult.first?.locality
+                guard let city = geocodeResult?.first?.locality
                 else { throw LocationError.geocodeFailed }
 
                 locationManager.lastKnownLocality = city
@@ -52,8 +52,8 @@ public typealias AuthotizationContinuation = CheckedContinuation<CLAuthorization
 public typealias LocationOnceContinuation = CheckedContinuation<[CLLocation], Error>
 
 final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
-    var manager: CLLocationManager!
-    var geocoder: CLGeocoder!
+    var manager: CLLocationManager?
+    var geocoder: CLGeocoder?
     var authContinuation: AuthotizationContinuation?
     var locationUpdateContinuation: LocationOnceContinuation?
     var lastKnownLocality: String?
@@ -63,8 +63,8 @@ final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
         await MainActor.run {
             self.manager = CLLocationManager()
             self.geocoder = CLGeocoder()
-            self.manager.desiredAccuracy = kCLLocationAccuracyKilometer
-            self.manager.delegate = self
+            self.manager?.desiredAccuracy = kCLLocationAccuracyKilometer
+            self.manager?.delegate = self
         }
     }
 
