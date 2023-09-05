@@ -15,21 +15,25 @@ extension ComposableCoreLocation: DependencyKey {
                 await locationManager.initialize()
             },
             requestWhenInUseAuthorization: {
-                if locationManager.manager.authorizationStatus == .authorizedWhenInUse {
+                if locationManager.manager?.authorizationStatus == .authorizedWhenInUse {
                     return LocationAuthorizationStatus.init(status: .authorizedWhenInUse)
                 }
 
                 let value = await withCheckedContinuation { continuation in
                     locationManager.authContinuation = continuation
-                    locationManager.manager.requestWhenInUseAuthorization()
+                    locationManager.manager?.requestWhenInUseAuthorization()
                 }
 
                 return LocationAuthorizationStatus.init(status: value)
             },
             location: {
+                if let location = locationManager.location {
+                    return Location(location: location)
+                }
+
                 let value = try await withCheckedThrowingContinuation { continuation in
                     locationManager.locationUpdateContinuation = continuation
-                    locationManager.manager.requestLocation()
+                    locationManager.manager?.requestLocation()
                 }
 
                 guard let location = value.first
@@ -54,7 +58,7 @@ public typealias AuthotizationContinuation = CheckedContinuation<CLAuthorization
 public typealias LocationOnceContinuation = CheckedContinuation<[CLLocation], Error>
 
 final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
-    var manager: CLLocationManager!
+    var manager: CLLocationManager?
     var geocoder: CLGeocoder?
     var authContinuation: AuthotizationContinuation?
     var locationUpdateContinuation: LocationOnceContinuation?
@@ -64,8 +68,8 @@ final internal class LocationDelegate: NSObject, CLLocationManagerDelegate {
     func initialize() async {
         self.manager = CLLocationManager()
         self.geocoder = CLGeocoder()
-        self.manager.desiredAccuracy = kCLLocationAccuracyKilometer
-        self.manager.delegate = self
+        self.manager?.desiredAccuracy = kCLLocationAccuracyKilometer
+        self.manager?.delegate = self
     }
 
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
