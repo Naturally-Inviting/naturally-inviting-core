@@ -86,10 +86,13 @@ public class CoreDataProvider {
         })
 
         Logger.coreData.debug("Setting viewContext.automaticallyMergesChangesFromParent")
-        container.viewContext.automaticallyMergesChangesFromParent = true
-        container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
-
-        Logger.coreData.debug("Did return container")
+        Task {
+            await MainActor.run {
+                container.viewContext.automaticallyMergesChangesFromParent = true
+                container.viewContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+            }
+        }
+        Logger.coreData.debug("Did initialize container")
         return container
     }
 }
