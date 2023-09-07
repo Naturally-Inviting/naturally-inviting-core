@@ -20,7 +20,7 @@ struct Snapshot<Content>: View where Content: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
         }
-        .onAppear {
+        .onAppear { @MainActor in
             self.snapshotting
                 .snapshot(AnyView(self.content()))
                 .run { self.image = Image(uiImage: $0) }
