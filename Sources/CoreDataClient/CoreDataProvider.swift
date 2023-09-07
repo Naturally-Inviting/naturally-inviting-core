@@ -15,9 +15,17 @@ public class CoreDataProvider {
         container.viewContext
     }
 
-    public init(name: String, appGroup: String? = nil, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) {
+    public init(
+        name: String,
+        appGroup: String? = nil,
+        iCloudIdentifier: String,
+        model: NSManagedObjectModel,
+        withSync: Bool,
+        inMemory: Bool
+    ) {
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            iCloudIdentifier: iCloudIdentifier,
             appGroup: appGroup,
             model: model,
             withSync: withSync,
@@ -27,6 +35,7 @@ public class CoreDataProvider {
 
     public func setContainer(
         name: String,
+        iCloudIdentifier: String,
         appGroup: String? = nil,
         model: NSManagedObjectModel,
         withSync: Bool,
@@ -35,6 +44,7 @@ public class CoreDataProvider {
         #if os(watchOS)
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            iCloudIdentifier: iCloudIdentifier,
             appGroup: appGroup,
             model: model,
             withSync: withSync,
@@ -44,6 +54,7 @@ public class CoreDataProvider {
         let cloudSync = NSUbiquitousKeyValueStore.default.bool(forKey: "iCloudSyncKey")
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            iCloudIdentifier: iCloudIdentifier,
             appGroup: appGroup,
             model: model,
             withSync: cloudSync,
@@ -52,8 +63,10 @@ public class CoreDataProvider {
         #endif
     }
 
+    /// https://stackoverflow.com/questions/61856106/migrating-data-to-app-groups-disables-icloud-syncing
     internal static func setupCloudKitContainer(
         container name: String,
+        iCloudIdentifier: String,
         appGroup: String? = nil,
         model: NSManagedObjectModel,
         withSync: Bool,
@@ -64,6 +77,7 @@ public class CoreDataProvider {
         if let appGroup {
             let url = URL.storeURL(for: appGroup, databaseName: name)
             let storeDescription = NSPersistentStoreDescription(url: url)
+            storeDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: iCloudIdentifier)
             container.persistentStoreDescriptions = [storeDescription]
         }
 
