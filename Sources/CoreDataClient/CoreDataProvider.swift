@@ -15,19 +15,27 @@ public class CoreDataProvider {
         container.viewContext
     }
 
-    public init(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) {
+    public init(name: String, appGroup: String? = nil, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) {
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            appGroup: appGroup,
             model: model,
             withSync: withSync,
             inMemory: inMemory
         )
     }
 
-    public func setContainer(name: String, model: NSManagedObjectModel, withSync: Bool, inMemory: Bool) async {
+    public func setContainer(
+        name: String,
+        appGroup: String? = nil,
+        model: NSManagedObjectModel,
+        withSync: Bool,
+        inMemory: Bool
+    ) async {
         #if os(watchOS)
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            appGroup: appGroup,
             model: model,
             withSync: withSync,
             inMemory: inMemory
@@ -36,6 +44,7 @@ public class CoreDataProvider {
         let cloudSync = NSUbiquitousKeyValueStore.default.bool(forKey: "iCloudSyncKey")
         self.container = CoreDataProvider.setupCloudKitContainer(
             container: name,
+            appGroup: appGroup,
             model: model,
             withSync: cloudSync,
             inMemory: inMemory
@@ -45,11 +54,18 @@ public class CoreDataProvider {
 
     internal static func setupCloudKitContainer(
         container name: String,
+        appGroup: String? = nil,
         model: NSManagedObjectModel,
         withSync: Bool,
         inMemory: Bool = false
     ) -> NSPersistentCloudKitContainer {
         let container = NSPersistentCloudKitContainer(name: name, managedObjectModel: model)
+
+        if let appGroup {
+            let url = URL.storeURL(for: appGroup, databaseName: name)
+            let storeDescription = NSPersistentStoreDescription(url: url)
+            container.persistentStoreDescriptions = [storeDescription]
+        }
 
         if inMemory {
             Logger.coreData.debug("Initialized in Memory")
@@ -94,5 +110,14 @@ public class CoreDataProvider {
         }
         Logger.coreData.debug("Did initialize container")
         return container
+    }
+}
+
+extension URL {
+    static func storeURL(for appGroup: String, databaseName: String) -> URL {
+        guard let fileContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)
+        else { fatalError("Unable to create URL for \(appGroup)") }
+
+        return fileContainer.appending(component: "\(databaseName).sqlite")
     }
 }
