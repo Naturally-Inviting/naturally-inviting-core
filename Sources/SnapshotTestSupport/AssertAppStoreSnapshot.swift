@@ -21,7 +21,7 @@ SnapshotContent: View
                     .environment(\.adaptiveSize, config.adaptiveSize)
                     .environment(\.colorScheme, colorScheme)
                     .environment(\.deviceState, config.deviceState),
-                as: .imageRender(layout: .device(config: config.viewImageConfig)),
+                as: .imageRender(layout: .device(config: config.viewImageConfig), traits: .init(displayScale: config.scale)),
                 named: name,
                 file: file,
                 testName: testName,
@@ -63,7 +63,7 @@ Description: View
                 }
                     .environment(\.colorScheme, colorScheme)
                     .environment(\.deviceState, config.deviceState),
-                as: .imageRender(layout: .device(config: config.viewImageConfig)),
+                as: .imageRender(layout: .device(config: config.viewImageConfig), traits: .init(displayScale: config.scale)),
                 named: name,
                 file: file,
                 testName: testName,

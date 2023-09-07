@@ -18,7 +18,7 @@ class AppStoreSnapshotTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
 
-        isRecording = false
+        isRecording = true
     }
 
     override func tearDown() {
@@ -37,7 +37,29 @@ class AppStoreSnapshotTests: XCTestCase {
             colorScheme: .light
         )
     }
+
+    func test_2_List() {
+        assertAppStoreSnapshots(
+            for: ListTestView(),
+            description: {
+                Text("Test")
+            },
+            backgroundColor: Color.orange,
+            colorScheme: .light
+        )
+    }
 }
+
+struct ListTestView: View {
+    var body: some View {
+        List {
+            ForEach(0 ..< 50) { item in
+                Text("Item - \(item)")
+            }
+        }
+    }
+}
+
 
 struct TestChartView: View {
     let players = ["Ozil", "Ramsey", "Laca", "Auba", "Xhaka", "Torreira"]
