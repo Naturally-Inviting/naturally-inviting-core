@@ -1,3 +1,6 @@
+#if os(iOS) || os(tvOS)
+import UIKit
+#endif
 import SnapshotTesting
 
 struct SnapshotConfig {
