@@ -70,12 +70,55 @@ final actor WorkoutSessionActor {
         }
 
         func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
-            self.continuation?.yield(.sessionDidFail(error))
+            self.continuation?.yield(.sessionDidFail)
         }
 
         func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
             guard session.state == .running else { return }
-            self.continuation?.yield(.didCollectData(workoutBuilder, collectedTypes: collectedTypes))
+            for type in collectedTypes {
+                guard let quantityType = type as? HKQuantityType else { return }
+
+                let statistics = builder.statistics(for: quantityType)
+                guard let statistics = statistics else { return }
+
+                switch statistics.quantityType {
+                case HKQuantityType.quantityType(forIdentifier: .heartRate):
+                    let heartRateUnit = HKUnit.count().unitDivided(by: HKUnit.minute())
+
+                    let mostRctValue = statistics.mostRecentQuantity()?.doubleValue(for: heartRateUnit)
+                    let avgValue = statistics.averageQuantity()?.doubleValue(for: heartRateUnit)
+
+                    let maxValue = statistics.maximumQuantity()?.doubleValue(for: heartRateUnit)
+                    let minValue = statistics.minimumQuantity()?.doubleValue(for: heartRateUnit)
+
+                    let currentHeartRate = Int(Double( round( 1 * mostRctValue! ) / 1 ))
+                    let averageHeartRate = Int(Double( round( 1 * avgValue! ) / 1 ))
+                    let heartRateMax = Int(Double( round( 1 * maxValue! ) / 1 ))
+                    let heartRateMin = Int(Double( round( 1 * minValue! ) / 1 ))
+
+                    continuation?.yield(
+                        .didCollectData(
+                            data: .heartRate(
+                                sessionData: .init(
+                                    currentHeartRate: currentHeartRate,
+                                    heartRateAverage: averageHeartRate,
+                                    heartRateMax: heartRateMax,
+                                    heartRateMin: heartRateMin
+                                )
+                            )
+                        )
+                    )
+
+                case HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned):
+                    let energyUnit = HKUnit.kilocalorie()
+                    let value = statistics.sumQuantity()?.doubleValue(for: energyUnit)
+                    let activeCalories = Int(Double( round( 1 * value! ) / 1 ))
+                    continuation?.yield(.didCollectData(data: .activeCalories(sessionData: activeCalories)))
+
+                default:
+                    return
+                }
+            }
         }
 
         func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
