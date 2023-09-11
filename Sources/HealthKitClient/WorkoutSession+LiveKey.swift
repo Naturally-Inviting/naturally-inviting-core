@@ -158,7 +158,7 @@ final actor WorkoutSessionActor {
 
         delegate.session.startActivity(with: date.now)
         try await delegate.builder.beginCollection(at: date.now)
-
+        self.delegate = delegate
         return stream
     }
 
