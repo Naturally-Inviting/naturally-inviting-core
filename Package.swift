@@ -20,6 +20,7 @@ let package = Package(
         .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
         .library(name: "NotificationCenterClient", targets: ["NotificationCenterClient"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
+        .library(name: "SwiftDataProvider", targets: ["SwiftDataProvider"]),
         .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
         .library(name: "UIApplicationClient", targets: ["UIApplicationClient"])
     ],
@@ -88,6 +89,12 @@ let package = Package(
             name: "SnapshotTestSupport",
             dependencies: [
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ]
+        ),
+        .target(
+            name: "SwiftDataProvider",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
