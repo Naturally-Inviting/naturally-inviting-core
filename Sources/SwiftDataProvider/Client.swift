@@ -5,12 +5,16 @@ import SwiftData
 @available(watchOS 10, *)
 public struct SwiftDataClient {
     public var container: () -> ModelContainer
+
+    public init(container: @escaping () -> ModelContainer) {
+        self.container = container
+    }
 }
 
 @available(iOS 17, *)
 @available(watchOS 10, *)
 public class SwiftDataProvider {
-    var modelContainer: ModelContainer
+    public var modelContainer: ModelContainer
 
     public init(
         schema: Schema,
