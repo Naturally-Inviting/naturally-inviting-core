@@ -17,6 +17,7 @@ let package = Package(
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
         .library(name: "FeedbackGeneratorClient", targets: ["FeedbackGeneratorClient"]),
         .library(name: "HealthKitClient", targets: ["HealthKitClient"]),
+        .library(name: "NaturalExtensions", targets: ["NaturalExtensions"]),
         .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
         .library(name: "NotificationCenterClient", targets: ["NotificationCenterClient"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
@@ -72,6 +73,9 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
+        ),
+        .target(
+            name: "NaturalExtensions"
         ),
         .target(
             name: "NIDesignSystem",
