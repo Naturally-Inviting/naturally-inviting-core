@@ -16,12 +16,12 @@ let package = Package(
         .library(name: "CoreDataClient", targets: ["CoreDataClient"]),
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
         .library(name: "FeedbackGeneratorClient", targets: ["FeedbackGeneratorClient"]),
+        .library(name: "HealthKitClient", targets: ["HealthKitClient"]),
         .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
         .library(name: "NotificationCenterClient", targets: ["NotificationCenterClient"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
         .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
-        .library(name: "UIApplicationClient", targets: ["UIApplicationClient"]),
-
+        .library(name: "UIApplicationClient", targets: ["UIApplicationClient"])
     ],
     dependencies: [
         .package(
@@ -62,6 +62,12 @@ let package = Package(
         ),
         .target(
             name: "FeedbackGeneratorClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "HealthKitClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
