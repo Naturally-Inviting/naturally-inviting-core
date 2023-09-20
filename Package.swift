@@ -22,8 +22,9 @@ let package = Package(
         .library(name: "NotificationCenterClient", targets: ["NotificationCenterClient"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
         .library(name: "SwiftDataProvider", targets: ["SwiftDataProvider"]),
-        .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
-        .library(name: "UIApplicationClient", targets: ["UIApplicationClient"])
+        .library(name: "UIApplicationClient", targets: ["UIApplicationClient"]),
+        .library(name: "UserDefaultsClient", targets: ["UserDefaultsClient"]),
+        .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"])
     ],
     dependencies: [
         .package(
@@ -103,6 +104,12 @@ let package = Package(
         ),
         .target(
             name: "UIApplicationClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "UserDefaultsClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
