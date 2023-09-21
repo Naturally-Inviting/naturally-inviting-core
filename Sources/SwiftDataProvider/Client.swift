@@ -32,7 +32,7 @@ public class SwiftDataProvider {
             schema: schema,
             isStoredInMemoryOnly: isStoredInMemoryOnly,
             groupContainer: groupContainer,
-            cloudKitDatabase: .automatic
+            cloudKitDatabase: .automatic // DO NOT RELY ON THIS FOR ICLOUD SYNC. AUTO REQUIRES THE BUNDLE FROM PROJECT.
         )
 
         do {
