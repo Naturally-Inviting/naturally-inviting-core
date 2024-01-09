@@ -11,6 +11,7 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
+        .library(name: "ATTrackingManagerClient", targets: ["ATTrackingManagerClient"]),
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"]),
         .library(name: "CoreDataClient", targets: ["CoreDataClient"]),
@@ -37,8 +38,12 @@ let package = Package(
         )
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        .target(
+            name: "ATTrackingManagerClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
         .target(
             name: "ComposableCoreLocation",
             dependencies: [
