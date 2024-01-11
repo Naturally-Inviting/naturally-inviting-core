@@ -7,6 +7,13 @@ public struct ATTrackingManagerClient {
     public var requestTrackingAuthorization: () async -> ATTrackingManager.AuthorizationStatus
 }
 
+public extension DependencyValues {
+    var atTrackingManager: ATTrackingManagerClient {
+        get { self[ATTrackingManagerClient.self] }
+        set { self[ATTrackingManagerClient.self] = newValue }
+    }
+}
+
 extension ATTrackingManagerClient: DependencyKey {
     public static var liveValue: ATTrackingManagerClient {
         ATTrackingManagerClient(
