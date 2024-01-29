@@ -2,7 +2,9 @@ import ComposableArchitecture
 import StoreKit
 import SwiftUI
 
-public struct PaywallFeature: Reducer {
+@Reducer
+public struct PaywallFeature {
+    @Reducer
     public struct Destination: Reducer {
         public enum State: Equatable {
             case alert(AlertState<Action.Alert>)
@@ -19,9 +21,10 @@ public struct PaywallFeature: Reducer {
     }
 
     // MARK: - State
+    @ObservableState
     public struct State: Equatable {
         internal let subscriptionGroupId: String
-        @PresentationState var destination: Destination.State?
+        @Presents var destination: Destination.State?
 
         public init(subscriptionGroupId: String) {
             self.subscriptionGroupId = subscriptionGroupId
@@ -87,14 +90,12 @@ public struct PaywallFeature: Reducer {
 
 // MARK: - View
 public struct PaywallFeatureView: View {
-    let store: StoreOf<PaywallFeature>
-    @ObservedObject var viewStore: ViewStoreOf<PaywallFeature>
+    @Bindable var store: StoreOf<PaywallFeature>
 
     public init(
         store: StoreOf<PaywallFeature>
     ) {
         self.store = store
-        self.viewStore = ViewStore(self.store, observe: { $0 })
     }
 
     public var body: some View {
@@ -107,35 +108,31 @@ public struct PaywallFeatureView: View {
                 .storeButton(.visible, for: .restorePurchases, .redeemCode)
             #endif
         }
-        .alert(
-            store: self.store.scope(state: \.$destination, action: { .destination($0) }),
-            state: /PaywallFeature.Destination.State.alert,
-            action: PaywallFeature.Destination.Action.alert
-        )
+        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
     }
 
     @ViewBuilder
     var content: some View {
-        SubscriptionStoreView(groupID: viewStore.subscriptionGroupId, visibleRelationships: .upgrade)
+        SubscriptionStoreView(groupID: store.subscriptionGroupId, visibleRelationships: .upgrade)
             .subscriptionStorePickerItemBackground(.thinMaterial)
             .storeButton(.hidden, for: .cancellation)
             .subscriptionStoreControlStyle(.automatic)
             .onInAppPurchaseCompletion { product, result in
                 switch result {
                 case .success(.success(.verified)):
-                    viewStore.send(.delegate(.storePurchaseDidComplete))
+                    store.send(.delegate(.storePurchaseDidComplete))
 
                 case .success(.pending):
-                    viewStore.send(.purchasePending)
+                    store.send(.purchasePending)
 
                 case .success(.userCancelled):
                     break
 
                 case .success(.success(.unverified)):
-                    viewStore.send(.purchaseErrorDidOccur)
+                    store.send(.purchaseErrorDidOccur)
 
                 case .failure:
-                    viewStore.send(.purchaseErrorDidOccur)
+                    store.send(.purchaseErrorDidOccur)
 
                 @unknown default:
                     break

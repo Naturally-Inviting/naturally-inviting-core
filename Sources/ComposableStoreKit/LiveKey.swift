@@ -1,6 +1,9 @@
 import ComposableArchitecture
 import StoreKit
+
+#if canImport(UIKit)
 import UIKit
+#endif
 
 @available(iOSApplicationExtension, unavailable)
 extension StoreKitClient: DependencyKey {
@@ -81,7 +84,7 @@ extension StoreKitClient: DependencyKey {
             return statuses.first?.state
         },
         showManageSubscription: {
-            #if os(iOS)
+            #if canImport(UIKit)
             if let window = await UIApplication.shared.connectedScenes.first {
                 try await AppStore.showManageSubscriptions(in: window as! UIWindowScene)
             }

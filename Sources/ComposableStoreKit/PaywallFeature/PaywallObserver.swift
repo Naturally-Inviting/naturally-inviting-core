@@ -2,8 +2,9 @@ import ComposableArchitecture
 import StoreKit
 import SwiftUI
 
-public struct PaywallObserver: Reducer {
-    // MARK: - State
+@Reducer
+public struct PaywallObserver {
+    @ObservableState
     public struct State: Equatable {
         internal let subscriptionGroupId: String
         internal var isTaskInFlight: Bool
@@ -62,18 +63,19 @@ public struct PaywallObserver: Reducer {
 
 internal struct PaywallObserverViewModifier: ViewModifier {
     let store: StoreOf<PaywallObserver>
-    @ObservedObject var viewStore: ViewStore<String, PaywallObserver.Action>
 
     internal init(
         store: StoreOf<PaywallObserver>
     ) {
         self.store = store
-        self.viewStore = ViewStore(self.store, observe: \.subscriptionGroupId)
     }
 
     func body(content: Content) -> some View {
         content
-            .subscriptionStatusTask(for: viewStore.state, priority: .high) { taskState in
+            .subscriptionStatusTask(
+                for: store.subscriptionGroupId,
+                priority: .high
+            ) { taskState in
                 switch taskState {
                 case .loading:
                     store.send(.setRequestInFlight(isLoading: true))
