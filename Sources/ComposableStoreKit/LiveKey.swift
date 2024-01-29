@@ -84,7 +84,7 @@ extension StoreKitClient: DependencyKey {
             return statuses.first?.state
         },
         showManageSubscription: {
-            #if canImport(UIKit)
+            #if os(iOS)
             if let window = await UIApplication.shared.connectedScenes.first {
                 try await AppStore.showManageSubscriptions(in: window as! UIWindowScene)
             }
