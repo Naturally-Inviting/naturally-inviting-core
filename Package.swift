@@ -18,8 +18,8 @@ let package = Package(
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
         .library(name: "FeedbackGeneratorClient", targets: ["FeedbackGeneratorClient"]),
         .library(name: "HealthKitClient", targets: ["HealthKitClient"]),
+        .library(name: "NaturalDesignSystem", targets: ["NaturalDesignSystem"]),
         .library(name: "NaturalExtensions", targets: ["NaturalExtensions"]),
-        .library(name: "NIDesignSystem", targets: ["NIDesignSystem"]),
         .library(name: "NotificationCenterClient", targets: ["NotificationCenterClient"]),
         .library(name: "SnapshotTestSupport", targets: ["SnapshotTestSupport"]),
         .library(name: "SwiftDataProvider", targets: ["SwiftDataProvider"]),
@@ -81,13 +81,13 @@ let package = Package(
             ]
         ),
         .target(
-            name: "NaturalExtensions"
-        ),
-        .target(
-            name: "NIDesignSystem",
+            name: "NaturalDesignSystem",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
+        ),
+        .target(
+            name: "NaturalExtensions"
         ),
         .target(
             name: "NotificationCenterClient",
