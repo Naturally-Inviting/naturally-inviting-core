@@ -118,26 +118,31 @@ public struct PaywallFeatureView: View {
             .storeButton(.hidden, for: .cancellation)
             .subscriptionStoreControlStyle(.automatic)
             .onInAppPurchaseCompletion { product, result in
-                switch result {
-                case .success(.success(.verified)):
-                    store.send(.delegate(.storePurchaseDidComplete))
-
-                case .success(.pending):
-                    store.send(.purchasePending)
-
-                case .success(.userCancelled):
-                    break
-
-                case .success(.success(.unverified)):
-                    store.send(.purchaseErrorDidOccur)
-
-                case .failure:
-                    store.send(.purchaseErrorDidOccur)
-
-                @unknown default:
-                    break
-                }
+                await sendStoreAction(result: result)
             }
+    }
+
+    @MainActor
+    func sendStoreAction(result: Result<Product.PurchaseResult, any Error>) {
+        switch result {
+        case .success(.success(.verified)):
+            store.send(.delegate(.storePurchaseDidComplete))
+
+        case .success(.pending):
+            store.send(.purchasePending)
+
+        case .success(.userCancelled):
+            break
+
+        case .success(.success(.unverified)):
+            store.send(.purchaseErrorDidOccur)
+
+        case .failure:
+            store.send(.purchaseErrorDidOccur)
+
+        @unknown default:
+            break
+        }
     }
 }
 
