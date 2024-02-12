@@ -1,3 +1,4 @@
+#if os(iOS)
 import ComposableArchitecture
 import ComposableStoreKit
 import NaturalDesignSystem
@@ -191,4 +192,4 @@ struct AppRatingModalContentView: View {
         )
     )
 }
-
+#endif
