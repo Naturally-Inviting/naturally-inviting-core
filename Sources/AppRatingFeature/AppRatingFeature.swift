@@ -100,10 +100,8 @@ public extension View {
             .customTcaAlert(store.scope(state: \.alertState, action: \.alert)) {
                 AppRatingModalContentView(store: store)
             }
-            .task {
-                await MainActor.run {
-                    store.send(.task)
-                }
+            .task { @MainActor in
+                store.send(.task)
             }
     }
 }
