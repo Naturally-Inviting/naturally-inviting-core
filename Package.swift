@@ -11,6 +11,7 @@ let package = Package(
         .macOS(.v13)
     ],
     products: [
+        .library(name: "AppRatingFeature", targets: ["AppRatingFeature"]),
         .library(name: "ATTrackingManagerClient", targets: ["ATTrackingManagerClient"]),
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"]),
@@ -35,9 +36,23 @@ let package = Package(
         .package(
             url: "https://github.com/pointfreeco/swift-snapshot-testing",
             from: "1.15.2"
+        ),
+        .package(
+            url: "https://github.com/Naturally-Inviting/swift-tca-custom-alert",
+            from: "0.0.2"
         )
     ],
     targets: [
+        .target(
+            name: "AppRatingFeature",
+            dependencies: [
+                "ComposableStoreKit",
+                "NaturalDesignSystem",
+                "UserDefaultsClient",
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "TCACustomAlert", package: "swift-tca-custom-alert")
+            ]
+        ),
         .target(
             name: "ATTrackingManagerClient",
             dependencies: [
