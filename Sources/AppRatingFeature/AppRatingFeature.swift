@@ -10,7 +10,7 @@ import UserDefaultsClient
 private let appRatingUserDefaultsKey = "com.naturally_inviting_appRatingUserDefaultsKey"
 
 @Reducer
-public struct AppRatingFeature: Reducer {
+public struct AppRatingFeature {
     @ObservableState
     public struct State: Equatable {
         var alertState: CustomTcaAlert.State = .init(
@@ -101,7 +101,9 @@ public extension View {
                 AppRatingModalContentView(store: store)
             }
             .task {
-                store.send(.task)
+                await MainActor.run {
+                    store.send(.task)
+                }
             }
     }
 }

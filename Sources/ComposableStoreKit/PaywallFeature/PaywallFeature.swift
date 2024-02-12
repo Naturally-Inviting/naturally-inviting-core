@@ -5,7 +5,7 @@ import SwiftUI
 @Reducer
 public struct PaywallFeature {
     @Reducer
-    public struct Destination: Reducer {
+    public struct Destination {
         public enum State: Equatable {
             case alert(AlertState<Action.Alert>)
         }
