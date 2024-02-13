@@ -102,10 +102,14 @@ public struct PaywallFeatureView: View {
         VStack {
             #if os(watchOS)
             content
-            #else
+            #elseif os(iOS)
             content
                 .subscriptionStoreButtonLabel(.multiline)
                 .storeButton(.visible, for: .restorePurchases, .redeemCode)
+            #elseif os(macOS)
+            content
+                .subscriptionStoreButtonLabel(.multiline)
+                .storeButton(.visible, for: .restorePurchases)
             #endif
         }
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
