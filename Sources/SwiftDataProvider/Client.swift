@@ -3,6 +3,7 @@ import SwiftData
 
 @available(iOS 17, *)
 @available(watchOS 10, *)
+@available(macOS 14, *)
 public struct SwiftDataClient {
     public var container: () -> ModelContainer
 
@@ -13,6 +14,7 @@ public struct SwiftDataClient {
 
 @available(iOS 17, *)
 @available(watchOS 10, *)
+@available(macOS 14, *)
 public class SwiftDataProvider {
     public var modelContainer: ModelContainer
 

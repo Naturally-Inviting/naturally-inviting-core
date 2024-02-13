@@ -8,7 +8,7 @@ let package = Package(
     platforms: [
         .iOS(.v17),
         .watchOS(.v10),
-        .macOS(.v13)
+        .macOS(.v14)
     ],
     products: [
         .library(name: "AppRatingFeature", targets: ["AppRatingFeature"]),
