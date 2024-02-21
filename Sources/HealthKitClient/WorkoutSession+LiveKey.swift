@@ -59,8 +59,6 @@ final actor WorkoutSessionActor {
             from fromState: HKWorkoutSessionState,
             date: Date
         ) {
-            self.continuation?.yield(.workoutSessionDidChange(toState: toState, fromState: fromState))
-
             if toState == .ended {
                 Task {
                     try await builder.endCollection(at: date)
@@ -70,6 +68,8 @@ final actor WorkoutSessionActor {
                     self.continuation?.yield(.didSaveWorkout(uuid: workout.uuid))
                 }
             }
+            
+            self.continuation?.yield(.workoutSessionDidChange(toState: toState, fromState: fromState))
         }
 
         func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
