@@ -64,8 +64,10 @@ final actor WorkoutSessionActor {
             if toState == .ended {
                 Task {
                     try await builder.endCollection(at: date)
-                    let workout = try await builder.finishWorkout()
-                    print("WILLB: - ", workout?.uuid.uuidString)
+                    
+                    guard let workout = try await builder.finishWorkout() else { return }
+                    
+                    self.continuation?.yield(.didSaveWorkout(uuid: workout.uuid))
                 }
             }
         }

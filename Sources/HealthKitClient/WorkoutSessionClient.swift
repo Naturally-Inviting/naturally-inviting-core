@@ -33,6 +33,7 @@ public struct WorkoutSessionClient {
         case didCollectData(data: WorkoutDataEvent)
         case builderDidCollectEvent(HKLiveWorkoutBuilder)
         case sessionDidFail
+        case didSaveWorkout(uuid: UUID)
     }
 
     public var requestStoreAuthorization: @Sendable (Set<HKSampleType>, Set<HKObjectType>) async throws -> Void
