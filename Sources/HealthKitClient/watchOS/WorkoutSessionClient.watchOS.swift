@@ -36,8 +36,8 @@ public struct WorkoutSessionClient {
         case didSaveWorkout(uuid: UUID)
     }
 
-    public var requestStoreAuthorization: @Sendable (Set<HKSampleType>, Set<HKObjectType>) async throws -> Void
-    public var statusForAuthorizationRequest: @Sendable (Set<HKSampleType>, Set<HKObjectType>) async throws -> HKAuthorizationRequestStatus
+    public var requestStoreAuthorization: @Sendable (_ toShare: Set<HKSampleType>, _ read: Set<HKObjectType>) async throws -> Void
+    public var statusForAuthorizationRequest: @Sendable (_ toShare: Set<HKSampleType>, _ read: Set<HKObjectType>) async throws -> HKAuthorizationRequestStatus
     public var start: @Sendable (HKWorkoutActivityType, HKWorkoutSessionLocationType) async throws -> AsyncStream<Action>
     
     public var pause: () async -> Void
