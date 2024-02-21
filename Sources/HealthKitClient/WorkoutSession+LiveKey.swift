@@ -66,10 +66,11 @@ final actor WorkoutSessionActor {
                     guard let workout = try await builder.finishWorkout() else { return }
                     
                     self.continuation?.yield(.didSaveWorkout(uuid: workout.uuid))
+                    self.continuation?.yield(.workoutSessionDidChange(toState: toState, fromState: fromState))
                 }
+            } else {
+                self.continuation?.yield(.workoutSessionDidChange(toState: toState, fromState: fromState))
             }
-            
-            self.continuation?.yield(.workoutSessionDidChange(toState: toState, fromState: fromState))
         }
 
         func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: Error) {
