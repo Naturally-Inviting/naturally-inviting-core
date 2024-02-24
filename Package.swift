@@ -26,7 +26,8 @@ let package = Package(
         .library(name: "SwiftDataProvider", targets: ["SwiftDataProvider"]),
         .library(name: "UIApplicationClient", targets: ["UIApplicationClient"]),
         .library(name: "UserDefaultsClient", targets: ["UserDefaultsClient"]),
-        .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"])
+        .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
+        .library(name: "WidgetCenterClient", targets: ["WidgetCenterClient"])
     ],
     dependencies: [
         .package(
@@ -136,6 +137,12 @@ let package = Package(
         ),
         .target(
             name: "WatchConnectivityClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "WidgetCenterClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
