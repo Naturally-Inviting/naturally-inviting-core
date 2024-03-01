@@ -24,6 +24,7 @@ public extension FeedbackGeneratorClient {
     )
 }
 
+#if os(iOS)
 public extension DependencyValues {
     var notificationGenerator: NotificationFeedbackGeneratorClient {
         get { self[NotificationFeedbackGeneratorClient.self] }
@@ -44,3 +45,25 @@ public extension NotificationFeedbackGeneratorClient {
         notificationOccurred: { _ in }
     )
 }
+#elseif os(watchOS)
+public extension DependencyValues {
+    var notificationGenerator: WatchFeedbackGenerator {
+        get { self[WatchFeedbackGenerator.self] }
+        set { self[WatchFeedbackGenerator.self] = newValue }
+    }
+}
+
+extension WatchFeedbackGenerator: TestDependencyKey {
+    public static let previewValue = Self.noop
+
+    public static let testValue = Self(
+        impactOccurred: XCTUnimplemented("\(Self.self).impactOccurred")
+    )
+}
+
+public extension WatchFeedbackGenerator {
+    static let noop = Self(
+        impactOccurred: { _ in }
+    )
+}
+#endif

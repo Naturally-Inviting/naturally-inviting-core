@@ -1,5 +1,8 @@
 import Dependencies
 import UIKit
+#if canImport(WatchKit)
+import WatchKit
+#endif
 
 // swiftformat:disable indent
 extension FeedbackGeneratorClient: DependencyKey {
@@ -16,6 +19,7 @@ extension FeedbackGeneratorClient: DependencyKey {
     #endif
 }
 
+#if os(iOS)
 extension NotificationFeedbackGeneratorClient: DependencyKey {
     public static var liveValue: NotificationFeedbackGeneratorClient {
         NotificationFeedbackGeneratorClient(
@@ -26,3 +30,22 @@ extension NotificationFeedbackGeneratorClient: DependencyKey {
         )
     }
 }
+#endif
+
+#if os(watchOS)
+extension WatchHapticType {
+    var wkHaptic: WKHapticType {
+        return WKHapticType(rawValue: self.rawValue) ?? .notification
+    }
+}
+
+extension WatchFeedbackGenerator: DependencyKey {
+    public static var liveValue: WatchFeedbackGenerator {
+        WatchFeedbackGenerator(
+            impactOccurred: { type in
+                WKInterfaceDevice.current().play(type.wkHaptic)
+            }
+        )
+    }
+}
+#endif
