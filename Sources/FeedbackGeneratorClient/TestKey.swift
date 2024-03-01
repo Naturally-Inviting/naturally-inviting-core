@@ -23,3 +23,24 @@ public extension FeedbackGeneratorClient {
         impactOccurred: {}
     )
 }
+
+public extension DependencyValues {
+    var notificationGenerator: NotificationFeedbackGeneratorClient {
+        get { self[NotificationFeedbackGeneratorClient.self] }
+        set { self[NotificationFeedbackGeneratorClient.self] = newValue }
+    }
+}
+
+extension NotificationFeedbackGeneratorClient: TestDependencyKey {
+    public static let previewValue = Self.noop
+
+    public static let testValue = Self(
+        notificationOccurred: XCTUnimplemented("\(Self.self).notificationOccurred")
+    )
+}
+
+public extension NotificationFeedbackGeneratorClient {
+    static let noop = Self(
+        notificationOccurred: { _ in }
+    )
+}

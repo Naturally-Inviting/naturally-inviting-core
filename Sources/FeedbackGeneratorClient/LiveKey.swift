@@ -15,3 +15,14 @@ extension FeedbackGeneratorClient: DependencyKey {
     public static let liveValue = Self.noop
     #endif
 }
+
+extension NotificationFeedbackGeneratorClient: DependencyKey {
+    public static var liveValue: NotificationFeedbackGeneratorClient {
+        NotificationFeedbackGeneratorClient(
+            notificationOccurred: {
+                let generator = await UINotificationFeedbackGenerator()
+                await generator.notificationOccurred($0)
+            }
+        )
+    }
+}
