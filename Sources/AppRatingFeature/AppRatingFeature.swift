@@ -152,25 +152,25 @@ struct AppRatingModalContentView: View {
     .background(Color.black.opacity(0.3))
 }
 
-#Preview {
-    struct AppRatingFeatureView: View {
-        let store: StoreOf<AppRatingFeature>
-        
-        init(
-            store: StoreOf<AppRatingFeature>
-        ) {
-            self.store = store
-        }
-        
-        var body: some View {
-            VStack {
-                Text("My View")
-            }
-            .appRatingObserver(store: store)
-        }
+fileprivate struct AppRatingFeatureDemoView: View {
+    let store: StoreOf<AppRatingFeature>
+
+    init(
+        store: StoreOf<AppRatingFeature>
+    ) {
+        self.store = store
     }
-    
-    return AppRatingFeatureView(
+
+    var body: some View {
+        VStack {
+            Text("My View")
+        }
+        .appRatingObserver(store: store)
+    }
+}
+
+#Preview {
+    AppRatingFeatureDemoView(
         store: .init(
             initialState: .init(),
             reducer: {

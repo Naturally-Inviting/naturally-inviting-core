@@ -12,11 +12,9 @@ extension UIApplicationClient: DependencyKey {
             endEditing: {
                 await UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             },
-            openSettingsURLString: { await UIApplication.openSettingsURLString },
+            openSettingsURLString: { UIApplication.openSettingsURLString },
             setApplicationIconBadgeNumber: { badgeNumber in
-                await MainActor.run {
-                    UIApplication.shared.applicationIconBadgeNumber = badgeNumber
-                }
+                try? await UNUserNotificationCenter.current().setBadgeCount(badgeNumber)
             }
         )
     }

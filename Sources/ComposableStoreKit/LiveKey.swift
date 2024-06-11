@@ -70,11 +70,11 @@ extension StoreKitClient: DependencyKey {
         requestStoreReview: {
             #if os(iOS)
             guard
-                let scene = await UIApplication.shared.connectedScenes
+                let scene = UIApplication.shared.connectedScenes
                     .first(where: { $0 is UIWindowScene })
                     as? UIWindowScene
             else { return }
-            await SKStoreReviewController.requestReview(in: scene)
+            SKStoreReviewController.requestReview(in: scene)
             #else
             return
             #endif
@@ -85,7 +85,7 @@ extension StoreKitClient: DependencyKey {
         },
         showManageSubscription: {
             #if os(iOS)
-            if let window = await UIApplication.shared.connectedScenes.first {
+            if let window = UIApplication.shared.connectedScenes.first {
                 try await AppStore.showManageSubscriptions(in: window as! UIWindowScene)
             }
             #endif

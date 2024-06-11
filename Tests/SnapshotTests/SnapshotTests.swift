@@ -9,7 +9,6 @@ class AppStoreSnapshotTests: XCTestCase {
     static override func setUp() {
         super.setUp()
 
-        UIApplication.shared.keyWindow?.layer.speed = 100
         UIView.setAnimationsEnabled(false)
 
         SnapshotTesting.diffTool = "ksdiff"

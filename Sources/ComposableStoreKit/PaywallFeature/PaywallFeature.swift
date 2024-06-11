@@ -122,7 +122,7 @@ public struct PaywallFeatureView: View {
             .storeButton(.hidden, for: .cancellation)
             .subscriptionStoreControlStyle(.automatic)
             .onInAppPurchaseCompletion { product, result in
-                await sendStoreAction(result: result)
+                sendStoreAction(result: result)
             }
     }
 

@@ -10,8 +10,8 @@ extension FeedbackGeneratorClient: DependencyKey {
     public static let liveValue = {
         let generator = UIImpactFeedbackGenerator.init(style: .medium)
         return Self(
-            prepare: { await generator.prepare() },
-            impactOccurred: { await generator.impactOccurred(intensity: 1) }
+            prepare: { generator.prepare() },
+            impactOccurred: { generator.impactOccurred(intensity: 1) }
         )
     }()
     #else
