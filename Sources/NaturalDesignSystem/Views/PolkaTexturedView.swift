@@ -9,6 +9,10 @@ public struct PolkaTexturedView: View {
                 GridRow {
                     ForEach(0...12, id: \.self) { _ in
                         PolkaDotView()
+                            .offset(
+                                x: CGFloat.random(in: -1...1),
+                                y: CGFloat.random(in: -1...1)
+                            )
                     }
                 }
             }

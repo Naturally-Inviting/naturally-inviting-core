@@ -15,7 +15,7 @@ extension UIApplicationClient: DependencyKey {
             openSettingsURLString: { await UIApplication.openSettingsURLString },
             setApplicationIconBadgeNumber: { badgeNumber in
                 await MainActor.run {
-                    UIApplication.shared.applicationIconBadgeNumber = badgeNumber
+                    UNUserNotificationCenter.current().setBadgeCount(badgeNumber)
                 }
             }
         )

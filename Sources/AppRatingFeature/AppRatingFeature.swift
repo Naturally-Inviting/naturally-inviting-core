@@ -170,7 +170,7 @@ struct AppRatingModalContentView: View {
         }
     }
     
-    return AppRatingFeatureView(
+    let ratingView = AppRatingFeatureView(
         store: .init(
             initialState: .init(),
             reducer: {
@@ -191,5 +191,19 @@ struct AppRatingModalContentView: View {
             }
         )
     )
+    
+    return TabView {
+        NavigationStack {
+            NavigationLink("Navigate") {
+                ratingView
+            }
+            .navigationTitle("TITLE")
+        }
+        .background(.gray)
+        .tabViewStyle(DefaultTabViewStyle())
+        .tabItem {
+            Text("hello")
+        }
+    }
 }
 #endif

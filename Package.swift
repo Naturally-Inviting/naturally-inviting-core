@@ -14,6 +14,7 @@ let package = Package(
         .library(name: "AppRatingFeature", targets: ["AppRatingFeature"]),
         .library(name: "ATTrackingManagerClient", targets: ["ATTrackingManagerClient"]),
         .library(name: "ComposableCoreLocation", targets: ["ComposableCoreLocation"]),
+        .library(name: "ComposableCoreMotion", targets: ["ComposableCoreMotion"]),
         .library(name: "ComposableStoreKit", targets: ["ComposableStoreKit"]),
         .library(name: "CoreDataClient", targets: ["CoreDataClient"]),
         .library(name: "CryptoClient", targets: ["CryptoClient"]),
@@ -32,11 +33,11 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture",
-            from: "1.8.2"
+            from: "1.11.2"
         ),
         .package(
             url: "https://github.com/pointfreeco/swift-snapshot-testing",
-            from: "1.15.3"
+            from: "1.16.2"
         ),
         .package(
             url: "https://github.com/Naturally-Inviting/swift-tca-custom-alert",
@@ -62,6 +63,12 @@ let package = Package(
         ),
         .target(
             name: "ComposableCoreLocation",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "ComposableCoreMotion",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]

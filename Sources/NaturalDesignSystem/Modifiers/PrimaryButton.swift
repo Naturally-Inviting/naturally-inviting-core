@@ -16,7 +16,7 @@ public struct PrimaryPillStyle {
     ) {
         self.foregroundColor = foregroundColor
         self.backgroundColor = backgroundColor
-        self.disabledColor = disabledColor ?? backgroundColor.opacity(0.6)
+        self.disabledColor = disabledColor ?? backgroundColor.opacity(0.7)
         self.font = font
         self.height = height
     }
@@ -27,7 +27,6 @@ public extension PrimaryPillStyle {
         Self(
             foregroundColor: .white,
             backgroundColor: .blue,
-            disabledColor: .blue,
             font: .headline.bold(),
             height: 48
         )
@@ -60,8 +59,6 @@ public struct PrimaryPillButton: ButtonStyle {
 
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
-            Spacer()
-
             HStack(spacing: 8) {
                 Group {
                     if isLoading {
@@ -80,9 +77,8 @@ public struct PrimaryPillButton: ButtonStyle {
                 configuration.label
             }
             .offset(x: icon == nil ? 0 : -4) // Visually center horizontally
-
-            Spacer()
         }
+        .frame(maxWidth: .infinity)
         .font(style.font)
         .foregroundColor(foregroundColorStyle(style, for: configuration))
         .frame(height: style.height)
@@ -154,8 +150,9 @@ struct ButtonDemoView: View {
                     .primaryPillButtonStyle()
                     .disabled(true)
             }
-            .padding(.vertical)
 
+            Divider()
+            
             HStack(spacing: 8) {
                 Button("Hello", action: { print("") })
                     .padding(.trailing, -16)
