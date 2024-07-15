@@ -78,7 +78,7 @@ extension CoreMotionClient: DependencyKey {
                             )
                         )
                         
-                        Logger.coreMotion.debug("Motion data collected: \(motionData)")
+//                        Logger.coreMotion.debug("Motion data collected: \(motionData)")
                         continuation.yield(.didUpdateMotion(data: motionData))
                     }
                 }
