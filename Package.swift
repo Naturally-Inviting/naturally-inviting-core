@@ -28,7 +28,8 @@ let package = Package(
         .library(name: "UIApplicationClient", targets: ["UIApplicationClient"]),
         .library(name: "UserDefaultsClient", targets: ["UserDefaultsClient"]),
         .library(name: "WatchConnectivityClient", targets: ["WatchConnectivityClient"]),
-        .library(name: "WidgetCenterClient", targets: ["WidgetCenterClient"])
+        .library(name: "WidgetCenterClient", targets: ["WidgetCenterClient"]),
+        .library(name: "WKInterfaceDeviceClient", targets: ["WKInterfaceDeviceClient"])
     ],
     dependencies: [
         .package(
@@ -150,6 +151,12 @@ let package = Package(
         ),
         .target(
             name: "WidgetCenterClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+            ]
+        ),
+        .target(
+            name: "WKInterfaceDeviceClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]

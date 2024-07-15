@@ -17,8 +17,7 @@ extension WatchConnectivityClient: DependencyKey {
 
         return WatchConnectivityClient(
             activate: {
-                guard WCSession.isSupported()
-                else {
+                guard WCSession.isSupported() else {
                     Logger.watchConnectivity.error("WCSession is not supported.")
                     return
                 }
@@ -33,15 +32,13 @@ extension WatchConnectivityClient: DependencyKey {
 
                 stream.continuation.onTermination = { _ in
                     Logger.watchConnectivity.log("WatchConnectivityClient.delegate stream terminated.")
-
                     delegate.continuation = nil
                 }
 
                 return stream.stream
             },
             sendMessage: { data in
-                guard session.isReachable
-                else {
+                guard session.isReachable else {
                     Logger.watchConnectivity.error("WCSession is unreachable")
                     return
                 }
@@ -50,8 +47,7 @@ extension WatchConnectivityClient: DependencyKey {
                 session.sendMessage(data, replyHandler: nil)
             },
             sendCodableMessage: { data in
-                guard session.isReachable
-                else {
+                guard session.isReachable else {
                     Logger.watchConnectivity.error("WCSession is unreachable")
                     return
                 }
