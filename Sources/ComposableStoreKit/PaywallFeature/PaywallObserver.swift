@@ -19,6 +19,7 @@ public struct PaywallObserver {
     public enum Action: Equatable {
         public enum Delegate: Equatable {
             case userRequiresUpgrade
+            case userHasPremium
         }
 
         case delegate(Delegate)
@@ -49,7 +50,7 @@ public struct PaywallObserver {
                     return .send(.delegate(.userRequiresUpgrade))
                 }
 
-                return .none
+                return .send(.delegate(.userHasPremium))
                 
             case .failedToLoadSubscriptionStatus:
                 return .none
