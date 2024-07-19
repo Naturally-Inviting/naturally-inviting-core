@@ -34,19 +34,14 @@ final actor WorkoutSessionActor {
 
         init(
             configuration: HKWorkoutConfiguration
-        ) {
+        ) throws {
             super.init()
             
-            do {
-                session = try HKWorkoutSession(
-                    healthStore: healthStore,
-                    configuration: configuration
-                )
-            } catch {
-                session = nil
-                print(error)
-            }
-
+            session = try HKWorkoutSession(
+                healthStore: healthStore,
+                configuration: configuration
+            )
+            
             builder = session.associatedWorkoutBuilder()
 
             session.delegate = self
@@ -153,7 +148,7 @@ final actor WorkoutSessionActor {
         let configuration = HKWorkoutConfiguration()
         configuration.activityType = workoutType
         configuration.locationType = locationType
-        let delegate = Delegate(configuration: configuration)
+        let delegate = try Delegate(configuration: configuration)
         var continuation: AsyncStream<WorkoutSessionClient.Action>.Continuation!
 
         let stream = AsyncStream<WorkoutSessionClient.Action> {
