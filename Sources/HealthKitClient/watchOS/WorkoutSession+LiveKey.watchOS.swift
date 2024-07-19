@@ -36,18 +36,23 @@ final actor WorkoutSessionActor {
             configuration: HKWorkoutConfiguration
         ) {
             super.init()
-
-            session = try? HKWorkoutSession(
-                healthStore: healthStore,
-                configuration: configuration
-            )
+            
+            do {
+                session = try HKWorkoutSession(
+                    healthStore: healthStore,
+                    configuration: configuration
+                )
+            } catch {
+                session = nil
+                print(error)
+            }
 
             builder = session.associatedWorkoutBuilder()
 
             session.delegate = self
             builder.delegate = self
 
-            builder?.dataSource = HKLiveWorkoutDataSource(
+            builder!.dataSource = HKLiveWorkoutDataSource(
                 healthStore: healthStore,
                 workoutConfiguration: configuration
             )
