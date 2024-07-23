@@ -42,7 +42,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/Naturally-Inviting/swift-tca-custom-alert",
-            from: "0.0.2"
+            from: "0.0.3"
         )
     ],
     targets: [

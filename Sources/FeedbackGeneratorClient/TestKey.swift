@@ -12,8 +12,8 @@ extension FeedbackGeneratorClient: TestDependencyKey {
     public static let previewValue = Self.noop
 
     public static let testValue = Self(
-        prepare: XCTUnimplemented("\(Self.self).prepare"),
-        impactOccurred: XCTUnimplemented("\(Self.self).impactOccurred")
+        prepare: unimplemented("\(Self.self).prepare"),
+        impactOccurred: unimplemented("\(Self.self).impactOccurred")
     )
 }
 
@@ -36,7 +36,7 @@ extension NotificationFeedbackGeneratorClient: TestDependencyKey {
     public static let previewValue = Self.noop
 
     public static let testValue = Self(
-        notificationOccurred: XCTUnimplemented("\(Self.self).notificationOccurred")
+        notificationOccurred: unimplemented("\(Self.self).notificationOccurred")
     )
 }
 
@@ -57,7 +57,7 @@ extension WatchFeedbackGenerator: TestDependencyKey {
     public static let previewValue = Self.noop
 
     public static let testValue = Self(
-        impactOccurred: XCTUnimplemented("\(Self.self).impactOccurred")
+        impactOccurred: unimplemented("\(Self.self).impactOccurred")
     )
 }
 
