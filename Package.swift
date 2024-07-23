@@ -32,11 +32,11 @@ let package = Package(
     dependencies: [
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture",
-            from: "1.11.0"
+            from: "1.12.0"
         ),
         .package(
             url: "https://github.com/pointfreeco/swift-snapshot-testing",
-            from: "1.16.0"
+            from: "1.17.2"
         ),
         .package(
             url: "https://github.com/Naturally-Inviting/swift-tca-custom-alert",
