@@ -11,8 +11,8 @@ public extension DependencyValues {
 extension CoreMotionClient {
     public static var testValue: CoreMotionClient {
         CoreMotionClient(
-            isDeviceMotionActive: unimplemented("\(Self.self).isDeviceMotionActive"),
-            isDeviceMotionAvailable: unimplemented("\(Self.self).isDeviceMotionAvailable"),
+            isDeviceMotionActive: unimplemented("\(Self.self).isDeviceMotionActive", placeholder: false),
+            isDeviceMotionAvailable: unimplemented("\(Self.self).isDeviceMotionAvailable", placeholder: false),
             startUpdates: unimplemented("\(Self.self).startUpdates"),
             stopUpdates: unimplemented("\(Self.self).stopUpdates")
         )

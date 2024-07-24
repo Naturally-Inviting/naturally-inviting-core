@@ -17,7 +17,7 @@ extension StoreKitClient: TestDependencyKey {
         latestTransaction: unimplemented("\(Self.self).latestTransaction"),
         fetchProducts: unimplemented("\(Self.self).fetchProducts"),
         observeCustomerPurchases: unimplemented("\(Self.self).observeCustomerPurchases"),
-        updateObserver: unimplemented("\(Self.self).updateObserver"),
+        updateObserver: unimplemented("\(Self.self).updateObserver", placeholder: AsyncStream { _ in }),
         purchase: unimplemented("\(Self.self).purchase"),
         finishTransaction: unimplemented("\(Self.self).finishTransaction"),
         requestStoreReview: unimplemented("\(Self.self).requestStoreReview"),

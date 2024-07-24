@@ -11,7 +11,7 @@ extension ComposableCoreLocation: TestDependencyKey {
     public static var testValue: ComposableCoreLocation {
         ComposableCoreLocation(
             initialize: unimplemented("\(Self.self).initialize"),
-            requestWhenInUseAuthorization: unimplemented("\(Self.self).requestWhenInUseAuthorization"),
+            requestWhenInUseAuthorization: unimplemented("\(Self.self).requestWhenInUseAuthorization", placeholder: .notDetermined),
             location: unimplemented("\(Self.self).location"),
             geolocateLocation: unimplemented("\(Self.self).geolocateLocation")
         )

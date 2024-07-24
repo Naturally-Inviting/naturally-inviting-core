@@ -30,12 +30,8 @@ extension ATTrackingManagerClient: DependencyKey {
 extension ATTrackingManagerClient: TestDependencyKey {
     public static var testValue: ATTrackingManagerClient {
         ATTrackingManagerClient(
-            trackingAuthorizationStatus: unimplemented(
-                "\(Self.self).trackingAuthorizationStatus"
-            ),
-            requestTrackingAuthorization: unimplemented(
-                "\(Self.self).requestTrackingAuthorization"
-            )
+            trackingAuthorizationStatus: unimplemented("\(Self.self).trackingAuthorizationStatus", placeholder: .notDetermined),
+            requestTrackingAuthorization: unimplemented("\(Self.self).requestTrackingAuthorization", placeholder: .notDetermined)
         )
     }
 }

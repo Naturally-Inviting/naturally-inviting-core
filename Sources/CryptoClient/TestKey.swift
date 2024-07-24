@@ -18,8 +18,8 @@ extension CryptoClient: TestDependencyKey {
     
     public static var testValue: Self {
         Self(
-            currentNonceString: unimplemented("\(Self.self).currentNonceString"),
-            generateEncodedNonceString: unimplemented("\(Self.self).generateEncodedNonceString")
+            currentNonceString: unimplemented("\(Self.self).currentNonceString", placeholder: ""),
+            generateEncodedNonceString: unimplemented("\(Self.self).generateEncodedNonceString", placeholder: "")
         )
     }
 }

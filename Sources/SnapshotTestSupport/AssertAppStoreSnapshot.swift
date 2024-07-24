@@ -17,7 +17,7 @@ SnapshotContent: View
         transaction.disablesAnimations = true
         withTransaction(transaction) {
             assertSnapshot(
-                matching:  view
+                of:  view
                     .environment(\.adaptiveSize, config.adaptiveSize)
                     .environment(\.colorScheme, colorScheme)
                     .environment(\.deviceState, config.deviceState),
@@ -51,7 +51,7 @@ Description: View
         transaction.disablesAnimations = true
         withTransaction(transaction) {
             assertSnapshot(
-                matching: AppStorePreview(
+                of: AppStorePreview(
                     .image(layout: .device(config: config.viewImageConfig)),
                     description: description,
                     backgroundColor: backgroundColor

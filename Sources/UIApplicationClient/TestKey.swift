@@ -13,11 +13,11 @@ public extension DependencyValues {
 extension UIApplicationClient: TestDependencyKey {
     public static var testValue: UIApplicationClient {
         Self(
-            open: XCTUnimplemented("\(Self.self).open", placeholder: false),
-            canOpen: XCTUnimplemented("\(Self.self).canOpen", placeholder: false),
-            endEditing: XCTUnimplemented("\(Self.self).endEditing"),
-            openSettingsURLString: XCTUnimplemented("\(Self.self).openSettingsURLString"),
-            setApplicationIconBadgeNumber: XCTUnimplemented("\(Self.self).setApplicationIconBadgeNumber")
+            open: unimplemented("\(Self.self).open", placeholder: false),
+            canOpen: unimplemented("\(Self.self).canOpen", placeholder: false),
+            endEditing: unimplemented("\(Self.self).endEditing"),
+            openSettingsURLString: unimplemented("\(Self.self).openSettingsURLString", placeholder: ""),
+            setApplicationIconBadgeNumber: unimplemented("\(Self.self).setApplicationIconBadgeNumber")
         )
     }
 
