@@ -122,8 +122,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Naturally-Inviting/swift-tca-custom-alert",
       "state" : {
-        "revision" : "38f2a607ea9375e3b99134e34bbb715c3477b935",
-        "version" : "0.2.0"
+        "revision" : "ff4f93ad843b1de742a7a8f58133cbbb4b858707",
+        "version" : "0.3.1"
       }
     },
     {
